@@ -1,0 +1,13 @@
+# Archivos generados por el compilador P4
+lab1-router/build/
+
+# Archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Archivos de registro
+*.log
+
+# Archivos temporales
+*.swp
+*~
