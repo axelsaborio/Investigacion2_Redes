@@ -80,7 +80,7 @@ def formato_bytes(cantidad):
         return f"{cantidad / 1_000_000:.2f} MB"
     if cantidad >= 1_000:
         return f"{cantidad / 1_000:.1f} kB"
-    return f"{cantidad} B"
+    return f"{cantidad:.0f} B"
 
 
 def ahora():
@@ -94,6 +94,9 @@ def leer_flujos(switch):
     actual = None
 
     for linea in salida.splitlines():
+        if "default entry" in linea:
+            break
+
         entrada = RE_ENTRADA.search(linea)
         if entrada:
             actual = {"handle": int(entrada.group(1), 16), "ips": []}
@@ -109,9 +112,10 @@ def leer_flujos(switch):
             continue
 
         accion = RE_ACCION.search(linea)
-        if accion:
+        if accion and "id" not in actual:
             datos = accion.group(1).replace(",", " ").split()
-            actual["id"] = int(datos[0], 16) if datos else 0
+            if datos:
+                actual["id"] = int(datos[0], 16)
 
     resultado = []
     for flujo in flujos:
@@ -305,9 +309,12 @@ def revisar_elefantes(datos, umbral, ya_reportados, historial):
             )
 
     if alertas:
-        with open(ARCHIVO_ALERTAS, "a") as archivo:
-            for alerta in alertas:
-                archivo.write(alerta + "\n")
+        try:
+            with open(ARCHIVO_ALERTAS, "a") as archivo:
+                for alerta in alertas:
+                    archivo.write(alerta + "\n")
+        except OSError as error:
+            print(f"AVISO: no se pudo escribir {ARCHIVO_ALERTAS.name}: {error}")
 
     return alertas
 

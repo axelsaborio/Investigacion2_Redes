@@ -1,6 +1,6 @@
 ======================================================================
  LABORATORIO 2 - PRUEBAS AUTOMATICAS
- Fecha: 2026-11-23 19:06:04
+ Fecha: 2026-11-23 21:28:05
 ======================================================================
 Flujos instalados en flow_stats: 12
 
@@ -50,10 +50,10 @@ PRUEBA 4. Registro de bytes con volumen conocido
   [PASA ] Paquetes en la categoria 512-1023 B del histograma (100 UDP + respuestas ICMP): esperado 106, obtenido 106
 
 PRUEBA 5. Actualizacion periodica del controlador
-    lectura #1 a las 19:06:10
-    lectura #2 a las 19:06:15
-    lectura #3 a las 19:06:20
-    lectura #4 a las 19:06:25
+    lectura #1 a las 21:28:10
+    lectura #2 a las 21:28:15
+    lectura #3 a las 21:28:20
+    lectura #4 a las 21:28:25
   [PASA ] Lecturas en 16 segundos: esperado >= 3, obtenido 4
   [PASA ] Segundos entre lecturas: esperado <= 5, obtenido [5, 5, 5]
 
@@ -81,7 +81,7 @@ PRUEBA 6. Deteccion de flujos elefante
   [PASA ] Marca del switch para 10.0.0.2 -> 10.0.0.4 (50000 B): esperado False, obtenido False
     ALERTA: Flujo elefante detectado
     
-    Fecha: 2026-11-23 19:06:29
+    Fecha: 2026-11-23 21:28:29
     Origen: 10.0.0.1
     Destino: 10.0.0.3
     Paquetes: 150
