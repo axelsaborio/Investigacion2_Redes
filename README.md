@@ -179,9 +179,73 @@ sudo mn -c
 
 ## Laboratorio 2 - Contadores y estadísticas de tráfico
 
-Implementación desarrollada de manera independiente en la carpeta lab2-counters.
+### Descripción
 
-Su documentación y sus instrucciones de ejecución se incorporarán al completar ese laboratorio.
+Sistema de monitoreo de tráfico en el plano de datos con P4 y BMv2.
+
+El programa permite:
+
+- Contar paquetes y bytes por flujo (IP origen + IP destino) con contadores directos.
+- Contar paquetes y bytes por protocolo: TCP, UDP, ICMP y otros.
+- Registrar el tamaño de los paquetes mediante registers (bytes por flujo, tamaño mínimo y máximo, histograma).
+- Consultar las estadísticas desde un controlador Python cada 5 segundos.
+- Detectar flujos elefante con un umbral configurable de bytes.
+
+### Topología
+
+Un switch P4 (s1) con cuatro hosts en la subred 10.0.0.0/24:
+
+| Host | Dirección IP | Puerto de s1 |
+|------|-------------|--------------|
+| h1 | 10.0.0.1/24 | 1 |
+| h2 | 10.0.0.2/24 | 2 |
+| h3 | 10.0.0.3/24 | 3 |
+| h4 | 10.0.0.4/24 | 4 |
+
+### Compilación
+
+Desde la raíz del repositorio:
+
+```bash
+mkdir -p lab2-counters/build
+
+p4c-bm2-ss --arch v1model \
+-o lab2-counters/build/counters.json \
+lab2-counters/counters.p4
+```
+
+### Ejecución
+
+Terminal 1:
+
+```bash
+sudo mn -c
+sudo python3 lab2-counters/topology.py
+```
+
+Terminal 2:
+
+```bash
+python3 lab2-counters/controller.py --reset
+```
+
+Dentro de Mininet, para generar tráfico:
+
+```bash
+h1 python3 lab2-counters/scripts/generar_trafico.py --destino 10.0.0.2 --tipo mixto
+h1 python3 lab2-counters/scripts/generar_trafico.py --destino 10.0.0.3 --tipo elefante --bytes 150000
+```
+
+### Pruebas
+
+```bash
+./lab2-counters/scripts/pruebas.sh
+./lab2-counters/scripts/pruebas.sh --completo
+```
+
+La opción `--completo` ejecuta las 6 pruebas del laboratorio en Mininet y compara el tráfico generado con los valores de los contadores. Resultado obtenido: 22/22 comprobaciones correctas.
+
+La documentación completa está en `lab2-counters/README.md`.
 
 ## Informe
 

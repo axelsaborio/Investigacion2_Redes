@@ -1,0 +1,105 @@
+======================================================================
+ LABORATORIO 2 - PRUEBAS AUTOMATICAS
+ Fecha: 2026-11-23 19:06:04
+======================================================================
+Flujos instalados en flow_stats: 12
+
+PRUEBA 1. Conectividad entre los cuatro hosts
+  [PASA ] Porcentaje de perdida en pingall: esperado 0.0, obtenido 0.0
+
+PRUEBA 2. Contadores por protocolo
+    ==================================================
+     TRAFICO ENVIADO  h1-eth0 -> 10.0.0.2
+    ==================================================
+     Tipo              Paquetes       Bytes
+     --------------------------------------
+     tcp                     10        2000
+     udp                     10        2000
+     icmp                    10        2000
+     otros                   10        2000
+     --------------------------------------
+     TOTAL                   40        8000
+    ==================================================
+  [PASA ] Paquetes TCP (enviados + respuestas RST): esperado >= 10, obtenido 20
+  [PASA ] Paquetes UDP: esperado 10, obtenido 10
+  [PASA ] Paquetes ICMP (eco + respuestas): esperado >= 10, obtenido 26
+  [PASA ] Paquetes OTROS (protocolo IP 253): esperado 10, obtenido 10
+
+PRUEBA 3. Contadores por flujo (IP origen + IP destino)
+  [PASA ] Paquetes del flujo 10.0.0.1 -> 10.0.0.2: esperado 40, obtenido 40
+  [PASA ] Bytes del flujo 10.0.0.1 -> 10.0.0.2: esperado 8000, obtenido 8000
+  [PASA ] Flujo inverso 10.0.0.2 -> 10.0.0.1 (solo respuestas): esperado > 0, obtenido 26
+  [PASA ] Flujo sin trafico 10.0.0.1 -> 10.0.0.3: esperado 0, obtenido 0
+
+PRUEBA 4. Registro de bytes con volumen conocido
+    ==================================================
+     TRAFICO ENVIADO  h3-eth0 -> 10.0.0.4
+    ==================================================
+     Tipo              Paquetes       Bytes
+     --------------------------------------
+     udp                    100      100000
+     --------------------------------------
+     TOTAL                  100      100000
+    ==================================================
+  [PASA ] Bytes en el contador directo del flujo: esperado 100000, obtenido 100000
+  [PASA ] Bytes en el register flow_bytes: esperado 100000, obtenido 100000
+  [PASA ] Bytes UDP en el contador por protocolo: esperado 100000, obtenido 100000
+  [PASA ] Tamano minimo registrado: esperado 1000, obtenido 1000
+  [PASA ] Tamano maximo registrado: esperado 1000, obtenido 1000
+    Respuestas ICMP de h4 (puerto inalcanzable): 6
+  [PASA ] Paquetes en la categoria 512-1023 B del histograma (100 UDP + respuestas ICMP): esperado 106, obtenido 106
+
+PRUEBA 5. Actualizacion periodica del controlador
+    lectura #1 a las 19:06:10
+    lectura #2 a las 19:06:15
+    lectura #3 a las 19:06:20
+    lectura #4 a las 19:06:25
+  [PASA ] Lecturas en 16 segundos: esperado >= 3, obtenido 4
+  [PASA ] Segundos entre lecturas: esperado <= 5, obtenido [5, 5, 5]
+
+PRUEBA 6. Deteccion de flujos elefante
+    ==================================================
+     TRAFICO ENVIADO  h1-eth0 -> 10.0.0.3
+    ==================================================
+     Tipo              Paquetes       Bytes
+     --------------------------------------
+     udp (elefante)         150      150000
+     --------------------------------------
+     TOTAL                  150      150000
+    ==================================================
+    ==================================================
+     TRAFICO ENVIADO  h2-eth0 -> 10.0.0.4
+    ==================================================
+     Tipo              Paquetes       Bytes
+     --------------------------------------
+     udp                     50       50000
+     --------------------------------------
+     TOTAL                   50       50000
+    ==================================================
+  [PASA ] Bytes del flujo 10.0.0.1 -> 10.0.0.3: esperado 150000, obtenido 150000
+  [PASA ] Marca del switch para 10.0.0.1 -> 10.0.0.3 (supera): esperado True, obtenido True
+  [PASA ] Marca del switch para 10.0.0.2 -> 10.0.0.4 (50000 B): esperado False, obtenido False
+    ALERTA: Flujo elefante detectado
+    
+    Fecha: 2026-11-23 19:06:29
+    Origen: 10.0.0.1
+    Destino: 10.0.0.3
+    Paquetes: 150
+    Bytes: 150000
+    Umbral: 100000
+    Marcado por el switch: si
+    !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  [PASA ] El controlador muestra la alerta: esperado True, obtenido True
+  [PASA ] Solo un flujo elefante reportado: esperado 1, obtenido 1
+
+======================================================================
+ RESUMEN
+======================================================================
+ Prueba 1: PASA (1/1 comprobaciones)
+ Prueba 2: PASA (4/4 comprobaciones)
+ Prueba 3: PASA (4/4 comprobaciones)
+ Prueba 4: PASA (6/6 comprobaciones)
+ Prueba 5: PASA (2/2 comprobaciones)
+ Prueba 6: PASA (5/5 comprobaciones)
+
+ Total: 22/22 comprobaciones correctas
