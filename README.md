@@ -1,6 +1,10 @@
-# Investigación 2 - Redes Programables con P4 https://youtu.be/L0hAL8ZWt_M
+# Investigación 2 - Redes Programables con P4
 
 Proyecto del curso CI-0121 Redes de Comunicación de Datos de la Universidad de Costa Rica.
+
+## Video demostrativo
+
+[Ver video demostrativo en YouTube](https://youtu.be/L0hAL8ZWt_M)
 
 ## Descripción
 
@@ -56,11 +60,11 @@ Los routers están conectados de la siguiente manera:
 
 ### Estructura del laboratorio
 
-- router.p4: implementación del router IPv4.
-- topology.py: creación y configuración de la red Mininet.
-- tables/: archivos de configuración de las tablas LPM.
-- scripts/pruebas.sh: verificaciones iniciales del laboratorio.
-- build/: archivos generados durante la compilación.
+- `router.p4`: implementación del router IPv4.
+- `topology.py`: creación y configuración de la red Mininet.
+- `tables/`: archivos de configuración de las tablas LPM.
+- `scripts/pruebas.sh`: verificaciones iniciales del laboratorio.
+- `build/`: archivos generados durante la compilación.
 
 ### Compilación
 
@@ -134,7 +138,7 @@ Resultado obtenido:
 
 3 paquetes transmitidos, 0 recibidos y 100 % de pérdida.
 
-Se verificó mediante simple_switch_CLI que la tabla de s1 no contiene una ruta hacia 10.0.5.10 y que su acción predeterminada es drop.
+Se verificó mediante `simple_switch_CLI` que la tabla de s1 no contiene una ruta hacia 10.0.5.10 y que su acción predeterminada es `drop`.
 
 #### 5. Inspección de tablas
 
@@ -243,14 +247,12 @@ h1 python3 lab2-counters/scripts/generar_trafico.py --destino 10.0.0.3 --tipo el
 ./lab2-counters/scripts/pruebas.sh --completo
 ```
 
-La opción `--completo` ejecuta las 6 pruebas del laboratorio en Mininet y compara el tráfico generado con los valores de los contadores. Resultado obtenido: 22/22 comprobaciones correctas.
+La opción `--completo` ejecuta las 6 pruebas del laboratorio en Mininet y compara el tráfico generado con los valores de los contadores.
+
+Resultado registrado: **22/22 comprobaciones correctas**.
 
 La documentación completa está en `lab2-counters/README.md`.
 
 ## Informe
 
-El informe de investigación se encuentra en la carpeta informe/.
-
-## Video demostrativo
-
-El video demostrativo mostrará el funcionamiento de las implementaciones y sus respectivas pruebas.
+El informe de investigación se encuentra en la carpeta `informe/`.
